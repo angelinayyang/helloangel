@@ -19,6 +19,7 @@
     --accent-sage:     #7ea37a;
     --accent-blue-grey:#a5cfd8; 
     --highlight-pink:  #fbe9ee;   /* pale pink highlight — for pale yellow use #fdf3c8 */
+    --highlight:       #f1f3f1;
     --accent-pink:     #f6ced2;   /* hover pop on the icon circles — for yellow use #e2bd4f */
     --highlight-blue:  #e8f3f8;
     --border:          #e8ede8;
@@ -124,17 +125,20 @@
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   }
   .xp-logo.blue { background: var(--highlight-blue); color: var(--accent-blue-grey); }
-  .xp-logo img { width: 100%; height: 100%; object-fit: cover; }
+  .xp-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* circles holding a real logo: no tint behind the mark, keep the pop on hover */
+  .xp-logo.has-logo { background: var(--bg-primary); }
   .xp-company { font-size: 17px; font-weight: 600; letter-spacing: 0.02em; }
   .xp-role, .xp-dates { font-size: 15px; color: var(--text-secondary); letter-spacing: 0.04em; }
   .xp-meta { display: inline-flex; align-items: center; flex-wrap: wrap; column-gap: 14px; }
-  .xp-sep { display: inline-block; font-size: 12px; color: var(--accent-blue-grey); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-
+  .xp-sep { display: inline-block; font-size: 12px; color: var(--accent-pink); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .xp-head:has(.xp-logo.blue) .xp-sep { color: var(--accent-blue-grey); }
   /* hover: row softly highlights, the icon pops and the ✦ twirls */
   .xp-head:hover { background: var(--highlight-pink); }
   .xp-head:hover:has(.xp-logo.blue) { background: var(--highlight-blue); }   /* rows with a blue icon highlight blue */
   .xp-head:hover .xp-logo { animation: pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; background: var(--accent-pink); color: var(--bg-primary); box-shadow: 0 4px 12px -4px rgba(231, 154, 173, 0.6); }
   .xp-head:hover .xp-logo.blue { background: var(--accent-blue-grey); box-shadow: 0 4px 12px -4px rgba(123, 167, 209, 0.6); }
+  .xp-head:hover .xp-logo.has-logo { background: var(--bg-primary); box-shadow: 0 4px 12px -4px rgba(44, 45, 42, 0.35); }
   .xp-head:hover .xp-sep { transform: rotate(180deg) scale(1.35); }
   @keyframes pop {
     0%   { transform: scale(1) rotate(0); }
@@ -198,7 +202,7 @@
   .dock a { font-size: 30px; line-height: 1; text-decoration: none; transition: transform 0.2s ease; }
   .dock a:hover { transform: translateY(-3px) scale(1.12); }
 
-  ::selection { background: var(--highlight-pink); }
+  ::selection { background: var(--highlight); }
   :focus-visible { outline: 2px solid var(--accent-sage); outline-offset: 2px; border-radius: 2px; }
 
   /* =========================================================
@@ -267,7 +271,7 @@
             <h3 class="block-sub">current fixations</h3>
             <div class="xp">
               <div class="xp-head">
-                <span class="xp-logo" aria-hidden="true">✦</span>
+                <span class="xp-logo has-logo" aria-hidden="true"><img src="images/logos/hti.png" alt="" /></span>
                 <span class="xp-company">Human Tech Integration Build Team</span>
                 <span class="xp-meta"><span class="xp-role">Project Lead and Embedded Systems Engineer</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Sep. 2026 - Dec. 2026</span></span>
               </div>
@@ -286,7 +290,7 @@
 </div>
             <div class="xp">
               <div class="xp-head">
-                <span class="xp-logo" aria-hidden="true">✦</span>
+                <span class="xp-logo has-logo" aria-hidden="true"><img src="images/logos/designplus.png" alt="" /></span>
                 <span class="xp-company">DesignPlus, Morningside Academy of Design</span>
                 <span class="xp-meta"><span class="xp-role">Toy Product Project Lead</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Sep. 2026 - Dec. 2026</span></span>
               </div>
@@ -296,7 +300,7 @@
             <h3 class="block-sub">previous quests</h3>
             <div class="xp">
               <div class="xp-head">
-                <span class="xp-logo blue" aria-hidden="true">✦</span>
+                <span class="xp-logo blue has-logo" aria-hidden="true"><img src="images/logos/rhythmlink.png" alt="" /></span>
                 <span class="xp-company">Rhythmlink International</span>
                 <span class="xp-meta"><span class="xp-role">Research and Development Engineer</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Oct. 2024 - May 2026</span></span>
               </div>
@@ -335,7 +339,7 @@
             </div>
             <div class="xp">
               <div class="xp-head">
-                <span class="xp-logo blue" aria-hidden="true">✦</span>
+                <span class="xp-logo blue has-logo" aria-hidden="true"><img src="images/logos/fabacademy.png" alt="" /></span>
                 <span class="xp-company">Fab Academy, How to Make Almost Anything</span>
                 <span class="xp-meta">
                     <span class="xp-role">2024 Graduate</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Jan. 2024 - Jun. 2024</span></span>
@@ -390,10 +394,19 @@
               <li class="row">
                 <span class="row-name">
                   <span class="row-icon blue" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span>
+                  <span>2025 Fab Academy Bootcamp Featured Panelist</span>
+                </span>
+                <span class="row-note">2025</span>
+              </li>
+
+            <li class="row">
+                <span class="row-name">
+                  <span class="row-icon blue" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span>
                   <span>United Nations Youth Leader for the 2025 International Women's Conference</span>
                 </span>
                 <span class="row-note">2025</span>
               </li>
+
             </ul>
           </section>
 
