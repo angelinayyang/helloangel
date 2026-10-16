@@ -20,7 +20,7 @@
     --accent-blue-grey:#a5cfd8; 
     --highlight-pink:  #fbe9ee;   /* pale pink highlight — for pale yellow use #fdf3c8 */
     --highlight:       #f1f3f1;
-    --accent-pink:     #f6ced2;   /* hover pop on the icon circles — for yellow use #e2bd4f */
+    --accent-pink:     #f6ced2;   /* ✦ color in the icon circles and separators — for yellow use #e2bd4f */
     --highlight-blue:  #e8f3f8;
     --border:          #e8ede8;
     --border-subtle:   #f1f5f1;
@@ -114,7 +114,6 @@
   .xp-head {
     display: flex; align-items: center; flex-wrap: wrap; column-gap: 14px; row-gap: 2px;
     margin: 0 -12px; padding: 7px 12px; border-radius: 14px;
-    transition: background-color 0.3s ease;
   }
   .xp-logo {
     flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; overflow: hidden;
@@ -122,30 +121,16 @@
     background: var(--highlight-pink); color: var(--accent-pink);
     font-size: 13px; line-height: 1; user-select: none;
     box-shadow: 0 0 0 1px var(--border);
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   }
   .xp-logo.blue { background: var(--highlight-blue); color: var(--accent-blue-grey); }
   .xp-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  /* circles holding a real logo: no tint behind the mark, keep the pop on hover */
+  /* circles holding a real logo: no tint behind the mark */
   .xp-logo.has-logo { background: var(--bg-primary); }
   .xp-company { font-size: 17px; font-weight: 600; letter-spacing: 0.02em; }
   .xp-role, .xp-dates { font-size: 15px; color: var(--text-secondary); letter-spacing: 0.04em; }
   .xp-meta { display: inline-flex; align-items: center; flex-wrap: wrap; column-gap: 14px; }
-  .xp-sep { display: inline-block; font-size: 12px; color: var(--accent-pink); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .xp-sep { display: inline-block; font-size: 12px; color: var(--accent-pink); }
   .xp-head:has(.xp-logo.blue) .xp-sep { color: var(--accent-blue-grey); }
-  /* hover: row softly highlights, the icon pops and the ✦ twirls */
-  .xp-head:hover { background: var(--highlight-pink); }
-  .xp-head:hover:has(.xp-logo.blue) { background: var(--highlight-blue); }   /* rows with a blue icon highlight blue */
-  .xp-head:hover .xp-logo { animation: pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; background: var(--accent-pink); color: var(--bg-primary); box-shadow: 0 4px 12px -4px rgba(231, 154, 173, 0.6); }
-  .xp-head:hover .xp-logo.blue { background: var(--accent-blue-grey); box-shadow: 0 4px 12px -4px rgba(123, 167, 209, 0.6); }
-  .xp-head:hover .xp-logo.has-logo { background: var(--bg-primary); box-shadow: 0 4px 12px -4px rgba(44, 45, 42, 0.35); }
-  .xp-head:hover .xp-sep { transform: rotate(180deg) scale(1.35); }
-  @keyframes pop {
-    0%   { transform: scale(1) rotate(0); }
-    40%  { transform: scale(1.22) rotate(-12deg); }
-    70%  { transform: scale(1.08) rotate(6deg); }
-    100% { transform: scale(1.12) rotate(0); }
-  }
 
   /* the little timeline branch under a role */
   .xp-body { margin: 0 0 0 13px; padding: 18px 0 4px 24px; border-left: 1.5px solid var(--border); }
@@ -232,9 +217,8 @@
     .dock a { font-size: 26px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    a, .dock a, .xp-head, .xp-logo, .xp-sep, .shot { transition: none; }
-    .xp-head:hover .xp-logo { animation: none; }
-    .xp-head:hover .xp-sep, .shot:hover { transform: none; }
+    a, .dock a, .shot { transition: none; }
+    .shot:hover { transform: none; }
   }
 </style>
 </head>
@@ -295,6 +279,12 @@
                 <span class="xp-meta"><span class="xp-role">Toy Product Project Lead</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Sep. 2026 - Dec. 2026</span></span>
               </div>
 
+              <div class="xp-body">
+              <div class="xp-sub">
+                  <p class="xp-sub-title">Presently co-producing a series of magnetic, modular, and musical circuit blocks for collaborative play </p>
+                  <p class="xp-sub-desc"> Modularity · PCB Design</p>
+</div>
+</div>
             </div>
 
             <h3 class="block-sub">previous quests</h3>
@@ -324,7 +314,7 @@
                 -->
                     <br>
                     
-                  <p class="xp-sub-title">Co-engineered a 21-channel EEG electrode testbed and stacked neural network ensemble to diagnose electrode abnormalities; trained to 98% accuracy on simulated defects </p>
+                  <p class="xp-sub-title">Co-engineered a 21-channel EEG electrode testbed and stacked neural network ensemble to diagnose electrode abnormalities </p>
                   <p class="xp-sub-desc"> Quality Assurance Testing · Machine Learning · Embedded Systems</p>
                     
                   <div class="shots">
