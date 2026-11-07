@@ -7,8 +7,8 @@
 <title>angelina yang</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- Exact fonts from the reference site: Newsreader (display) + DM Sans (body) -->
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+<!-- Newsreader (display) + DM Sans (body) -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet" />
 <style>
   :root {
     --bg-primary:      #fdfffe;
@@ -17,27 +17,32 @@
     --text-secondary:  #5a6b5d;
     --text-muted:      #9b8a94;
     --accent-sage:     #a37a8a;
-    --accent-blue-grey:#a5cfd8; 
-    --highlight-pink:  #fbe9ee;   /* pale pink highlight — for pale yellow use #fdf3c8 */
+    --accent-blue-grey:#a5cfd8;
+    --highlight-pink:  #fbe9ee;
     --highlight:       #f1f3f1;
-    --accent-pink:     #f6ced2;   /* ✦ color in the icon circles and separators — for yellow use #e2bd4f */
+    --accent-pink:     #f6ced2;
     --highlight-blue:  #e8f3f8;
     --border:          #e8ede8;
     --border-subtle:   #f1f5f1;
 
-    --header-h:  0px;   /* no top bar */
+    --maxw:   1240px;                        /* page width */
+    --gutter: clamp(20px, 6vw, 96px);        /* side margins */
+    --rule:   #e0e3e0;                       /* the lines between rows — light gray */
+    /* dashed line: 7px dash, 5px gap (change both numbers to make the dashes longer or shorter) */
+    --dash:   linear-gradient(to right, var(--rule) 0 7px, transparent 7px 12px);
   }
 
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
   body {
     margin: 0;
     background: var(--bg-primary);
     color: var(--text-primary);
     font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 15px;
-    line-height: 1.65;
+    font-size: 16px;
+    line-height: 1.6;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -51,66 +56,111 @@
     font-display: swap;
   }
 
-  /* ---------- links ---------- */
   a {
     color: var(--text-primary);
     text-decoration: underline;
     text-decoration-color: var(--accent-sage);
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
-    transition: all 0.25s ease;
+    transition: color 0.25s ease, text-decoration-color 0.25s ease;
   }
   a:hover { text-decoration-color: var(--text-primary); color: var(--accent-sage); }
+  p { margin: 0; }
 
-  p { margin: 0 0 20px; color: var(--text-primary); line-height: 1.7; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
-  /* ---------- highlight pills ---------- */
+  /* ---------- highlight pills (same as before) ---------- */
   .highlight { background: var(--highlight-pink); padding: 2px 5px; border-radius: 3px; font-weight: 500; }
   .highlight.blue { background: var(--highlight-blue); }
 
   /* =========================================================
-     MAIN: pinned hero stage + white sheet that slides over it
+     CORNERS: avatar (top-left) + "get in touch" (top-right) stay put while you scroll
      ========================================================= */
-  .main { min-width: 0; position: relative; }
+  .corners { position: fixed; top: 0; left: 0; right: 0; z-index: 50; pointer-events: none; }
+  .corners .wrap { display: flex; align-items: flex-start; justify-content: space-between; padding-top: 28px; }
+  .corners a { pointer-events: auto; }
 
-  .stage {
-    position: sticky; top: var(--header-h); z-index: 1;
-    min-height: calc(100vh - var(--header-h) - 72px);   /* leaves the sheet peeking up at the bottom */
-    display: flex; align-items: center; justify-content: center;
-    padding: 64px 32px;
-    background: var(--bg-primary);
-    overflow: hidden;
+  .avatar {
+    display: block; width: 68px; height: 68px; border-radius: 50%; overflow: hidden;
+    background: var(--bg-secondary); box-shadow: 0 0 0 1px var(--border);
+    text-decoration: none;
   }
-  .stage > * { position: relative; }
+  .avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .avatar .mono {
+    display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;
+    font-family: 'Newsreader', serif; font-style: italic; font-size: 28px; color: var(--text-secondary);
+  }
+  .cta {
+    margin-top: 20px;
+    display: inline-flex; align-items: center; height: 42px; padding: 0 22px; border-radius: 999px;
+    background: var(--text-primary); color: var(--bg-primary);
+    font-size: 16px; font-weight: 500; letter-spacing: -0.01em; text-decoration: none;
+  }
+  .cta:hover { background: var(--accent-sage); color: var(--bg-primary); }
 
-  .intro { max-width: 620px; margin: 0 auto; text-align: center; }
+  /* =========================================================
+     INTRO
+     ========================================================= */
+  /* same sizes as the original page; greeting + bio sit on the left, like the reference site */
+  .intro {
+    min-height: calc(78vh - 90px); padding-top: 110px; padding-bottom: 20px;
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center; text-align: left;
+  }
   .greeting {
+    max-width: 620px; margin: 0 0 22px;
     font-family: 'Newsreader', serif; font-size: 46px; font-weight: 400;
-    line-height: 1.12; letter-spacing: -0.5px; margin: 0 0 22px;
+    line-height: 1.12; letter-spacing: -0.5px;
   }
-  .intro p { letter-spacing: 0.03em; margin-bottom: 10px; }
-  .intro p:last-child { margin-bottom: 0; }
+  .lede { max-width: 620px; font-size: 15px; line-height: 1.7; letter-spacing: 0.03em; }
 
-  /* ---------- the white sheet ---------- */
-  .sheet {
-    position: relative; z-index: 2;
-    min-height: calc(100vh - var(--header-h));
-    padding: 18px 24px 160px;
-    background: var(--bg-primary);
-    border-radius: 28px 28px 0 0;
-    box-shadow: 0 -1px 0 var(--border), 0 -18px 40px -28px rgba(44, 45, 42, 0.2);
+  /* section headings — same font and style as the original page */
+  .section-title {
+    margin: 0 0 28px;
+    font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500;
+    font-size: 20px; letter-spacing: 0.02em;
   }
-  .sheet-handle { width: 90px; height: 5px; margin: 0 auto; border-radius: 99px; background: rgba(44, 45, 42, 0.12); }
-  .sheet-inner { max-width: 620px; margin: 0 auto; padding-top: 72px; }
 
-  .block { margin-bottom: 84px; }
-  .block:last-child { margin-bottom: 0; }
-  .block-title { font-size: 20px; font-weight: 500; letter-spacing: 0.02em; margin: 0 0 20px; }
-  .block-sub { font-size: 14px; font-weight: 400; color: var(--text-muted); letter-spacing: 0.04em; margin: 32px 0 6px; }
-  .block-title + .block-sub { margin-top: 0; }
+  /* =========================================================
+     IMAGE GRID: narrow column + wide column, rounded cards
+     ========================================================= */
+  .work { padding-bottom: 140px; }
+  .cards { display: grid; grid-template-columns: 1fr 2.06fr; gap: 24px; align-items: start; }
+  .col { display: flex; flex-direction: column; gap: 24px; }
 
-  /* ---------- experience rows (logo · company · role ✦ dates) ---------- */
-  .xp { padding: 6px 0; }
+  .card {
+    position: relative; display: block; overflow: hidden; margin: 0;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--highlight-pink), var(--highlight-blue));   /* shows while media loads */
+    text-decoration: none; color: var(--text-primary);
+  }
+  .card.square { aspect-ratio: 12 / 13; }
+  .card.tall   { aspect-ratio: 4 / 5; }
+  .card.wide   { aspect-ratio: 16 / 10; }
+  .card img, .card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-label {
+    position: absolute; left: 14px; bottom: 14px; z-index: 1;
+    padding: 6px 12px; border-radius: 999px;
+    background: rgba(253, 255, 254, 0.88);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    font-size: 13px; line-height: 1.3; color: var(--text-primary);
+  }
+
+
+
+
+  
+  /* =========================================================
+     THINGS I'VE BEEN UP TO — same format and sizes as the original page
+     ========================================================= */
+  .adventures { padding-bottom: 140px; }
+
+  .block-sub { margin: 36px 0 10px; font-size: 14px; font-weight: 400; color: var(--text-muted); letter-spacing: 0.04em; }
+  .section-title + .block-sub { margin-top: 0; }
+
+  /* experience + press sit in a centered 760px column; their lines are that same length */
+  .xp-col  { max-width: 760px; margin: 0 auto; }
+  .xp-list { background: var(--dash) left top / 12px 1px repeat-x; }
+  .xp      { padding: 22px 0 24px; background: var(--dash) left bottom / 12px 1px repeat-x; }
   .xp-head {
     display: flex; align-items: center; flex-wrap: wrap; column-gap: 14px; row-gap: 2px;
     margin: 0 -12px; padding: 7px 12px; border-radius: 14px;
@@ -124,17 +174,16 @@
   }
   .xp-logo.blue { background: var(--highlight-blue); color: var(--accent-blue-grey); }
   .xp-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  /* circles holding a real logo: no tint behind the mark */
-  .xp-logo.has-logo { background: var(--bg-primary); }
-  .xp-company { font-size: 17px; font-weight: 600; letter-spacing: 0.02em; }
+  .xp-logo.has-logo { background: var(--bg-primary); }   /* circles holding a real logo: no tint behind it */
+  .xp-company { flex: 1 1 0; min-width: 0; font-size: 17px; font-weight: 600; letter-spacing: 0.02em; }   /* long names wrap beside the logo */
   .xp-role, .xp-dates { font-size: 15px; color: var(--text-secondary); letter-spacing: 0.04em; }
-  .xp-meta { display: inline-flex; align-items: center; flex-wrap: wrap; column-gap: 14px; }
+  .xp-meta { display: inline-flex; align-items: center; flex-wrap: wrap; column-gap: 14px; flex-basis: 100%; }   /* role ✦ dates on the line below */
   .xp-sep { display: inline-block; font-size: 12px; color: var(--accent-pink); }
   .xp-head:has(.xp-logo.blue) .xp-sep { color: var(--accent-blue-grey); }
 
   /* the little timeline branch under a role */
   .xp-body { margin: 0 0 0 13px; padding: 18px 0 4px 24px; border-left: 1.5px solid var(--border); }
-  .xp-sub { position: relative; }
+  .xp-sub { position: relative; max-width: 760px; }
   .xp-sub::before {
     content: ''; position: absolute; left: -25.5px; top: -8px;
     width: 16px; height: 20px;
@@ -143,290 +192,278 @@
   }
   .xp-sub-title { font-size: 17px; letter-spacing: 0.02em; margin: 0 0 2px; line-height: 1.5; }
   .xp-sub-desc { font-size: 15px; color: var(--text-secondary); letter-spacing: 0.04em; margin: 0; line-height: 1.6; }
+  .xp-sub-desc + .xp-sub-title { margin-top: 18px; }   /* a second project under the same role */
 
-  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
-  .shot {
-    aspect-ratio: 3 / 2; border-radius: 12px; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, var(--highlight-pink), var(--highlight-blue));
-    border: 1px solid var(--border-subtle);
-    color: var(--text-muted); font-size: 13px; letter-spacing: 0.03em;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .shot:hover { transform: translateY(-3px); box-shadow: 0 12px 24px -14px rgba(44, 45, 42, 0.25); }
-  .shot img { width: 100%; height: 100%; object-fit: cover; }
-
-  .more-link { display: inline-block; margin: 10px 0 0 42px; letter-spacing: 0.02em; }
-
-  /* ---------- simple rows (icon + title on the left, note on the right) ---------- */
-  .rows { list-style: none; margin: 0; padding: 0; }
+  /* =========================================================
+     PRESS: lined rows, title on the left, year on the right
+     ========================================================= */
+  .rows { background: var(--dash) left top / 12px 1px repeat-x; }
   .row {
-    display: flex; align-items: center; justify-content: space-between; gap: 24px;
-    padding: 13px 0;
+    display: grid; grid-template-columns: 1fr auto; column-gap: 24px; align-items: start;
+    padding: 28px 0; background: var(--dash) left bottom / 12px 1px repeat-x;
+    font-size: 16px; line-height: 1.55;
   }
-  .row-name { display: flex; align-items: center; gap: 12px; min-width: 0; letter-spacing: 0.03em; }
-  .row-icon {
-    flex-shrink: 0; width: 24px; height: 24px; border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--highlight-pink); color: var(--accent-pink);
-  }
-  .row-icon.blue { background: var(--highlight-blue); color: var(--accent-blue-grey); }
-  .row-note { flex-shrink: 0; text-align: right; color: var(--text-secondary); letter-spacing: 0.03em; }
+  .row-dates { text-align: right; white-space: nowrap; }
 
-  /* ---------- floating dock ---------- */
-  .dock {
-    position: fixed; z-index: 40; bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex; gap: 34px; padding: 12px 30px;
-    background: rgba(253, 255, 254, 0.92);
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-    border: 1px solid var(--border); border-radius: 999px;
-    box-shadow: 0 12px 30px -14px rgba(44, 45, 42, 0.25);
+  /* =========================================================
+     ABOUT: serif heading on the left + two columns of body text
+     ========================================================= */
+  .about { padding-bottom: 160px; }
+  .about-grid {
+    display: grid; grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 48px; align-items: start;
   }
-  .dock a { font-size: 30px; line-height: 1; text-decoration: none; transition: transform 0.2s ease; }
-  .dock a:hover { transform: translateY(-3px) scale(1.12); }
+  .about-title {
+    margin: 0; font-family: 'Newsreader', serif; font-weight: 400;
+    font-size: clamp(30px, 3vw, 40px); line-height: 1.12; letter-spacing: -0.03em;
+  }
+  .about-col p { font-size: 15px; line-height: 1.9; letter-spacing: 0.02em; }   /* same font as the rest of the body text */
+  .about-col p + p { margin-top: 22px; }
+  .signature { grid-column: 3; justify-self: end; margin-top: 16px; width: 240px; height: auto; mix-blend-mode: multiply; }
+
+  /* =========================================================
+     BACK TO TOP
+     ========================================================= */
+  .to-top {
+    position: fixed; left: 50%; bottom: 28px; z-index: 40;
+    display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px;
+    border-radius: 999px; border: 1px solid var(--border);
+    background: rgba(253, 255, 254, 0.8);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 15px; letter-spacing: 0.02em;   /* same font as the body text */
+    color: var(--text-primary); text-decoration: none;
+    opacity: 0; transform: translate(-50%, 12px); pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .to-top.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+  .to-top:hover { color: var(--accent-sage); }
 
   ::selection { background: var(--highlight); }
-  :focus-visible { outline: 2px solid var(--accent-sage); outline-offset: 2px; border-radius: 2px; }
+  :focus-visible { outline: 2px solid var(--accent-sage); outline-offset: 3px; border-radius: 4px; }
 
   /* =========================================================
      SMALL SCREENS
      ========================================================= */
-  @media (max-width: 860px) {
+  @media (max-width: 760px) {
+    .corners .wrap { padding-top: 18px; }
+    .avatar { width: 52px; height: 52px; }
+    .avatar .mono { font-size: 22px; }
+    .cta { margin-top: 8px; height: 38px; padding: 0 18px; font-size: 15px; }
 
-
-    .stage {
-      position: relative; top: auto !important; padding: 48px 20px;
-      min-height: calc(100vh - var(--header-h) - 64px);
-      min-height: calc(100svh - var(--header-h) - 64px);
-    }
+    .intro { min-height: calc(70vh - 40px); padding-top: 96px; padding-bottom: 32px; }
     .greeting { font-size: 36px; }
+    .section-title { margin-bottom: 22px; }
 
-    .sheet { padding: 14px 20px 140px; border-radius: 22px 22px 0 0; }
-    .sheet-inner { padding-top: 44px; }
-    .block { margin-bottom: 64px; }
+    .work, .adventures { padding-bottom: 96px; }
+    .cards { grid-template-columns: 1fr; gap: 16px; }
+    .col { display: contents; }
+    .card[data-order="1"] { order: 1; } .card[data-order="2"] { order: 2; }
+    .card[data-order="3"] { order: 3; } .card[data-order="4"] { order: 4; }
+    .card.square, .card.tall { aspect-ratio: 4 / 5; }
 
-    .row { flex-direction: column; align-items: flex-start; gap: 2px; }
-    .row-note { text-align: left; padding-left: 36px; font-size: 14px; }
-    .xp-meta { flex-basis: 100%; padding-left: 42px; column-gap: 10px; }
+    .row { grid-template-columns: 1fr; row-gap: 6px; padding: 22px 0; }
+    .row-dates { text-align: left; font-size: 15px; color: var(--text-secondary); }
+
+    .xp-meta { padding-left: 42px; column-gap: 10px; }
     .xp-body { padding-left: 20px; }
     .xp-sub::before { left: -21.5px; width: 13px; }
 
-    .dock { gap: 28px; padding: 10px 24px; }
-    .dock a { font-size: 26px; }
+    .about { padding-bottom: 110px; }
+    .about-grid { grid-template-columns: 1fr; row-gap: 22px; }
+    .signature { grid-column: 1; width: 200px; }
+
+    .to-top { height: 40px; font-size: 14px; bottom: 18px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    a, .dock a, .shot { transition: none; }
-    .shot:hover { transform: none; }
+    a, .to-top { transition: none; }
   }
 </style>
 </head>
-<body>
+<body id="top">
 
+  <!-- ============ CORNERS ============ -->
+  <div class="corners">
+    <div class="wrap">
+      <!-- EDIT: to use a photo (or a little doodle of you), replace <span class="mono">ay</span> with
+           <img src="images/me.jpg" alt="Angelina Yang" /> -->
+      <a class="avatar" href="#top" aria-label="angelina yang, back to top"><span class="mono">ay</span></a>
+      <!-- EDIT: put your email after "mailto:" -->
+      <a class="cta" href="mailto:your@email.com">get in touch</a>
+    </div>
+  </div>
 
+  <main>
 
-    <!-- ============ MAIN ============ -->
-    <main class="main" id="about">
+    <!-- ============ INTRO ============ -->
+    <section class="intro wrap">
+      <h1 class="greeting"><i>hey, i'm angelina!</i></h1>
+      <p class="lede">I love designing end-to-end, human-centric designs. At the moment, I am studying
+         <span class="highlight">EECS and BME @ MIT</span> (6-5 + 20). I'm passionate about designing
+         <span class="highlight blue">wearable tech</span>, <span class="highlight blue">product design</span>,
+         and <span class="highlight blue">brain-computer interfaces</span>.</p>
+    </section>
 
-      <!-- ---- name + blurb, centered (stays put while the white sheet slides over it) ---- -->
-      <section class="stage">
-        <div class="intro">
-          <h1 class="greeting"><i>hey, i'm angelina!</i></h1>
-          <p>I love designing end-to-end, human-centric designs. At the moment, I am studying
-             <span class="highlight">EECS and BME @ MIT</span> (6-5 + 20). I'm passionate about designing
-             <span class="highlight blue">wearable tech</span>, <span class="highlight blue">product design</span>,
-             and <span class="highlight blue">brain-computer interfaces</span>.</p>
-          
+    <!-- ============ IMAGE GRID ============ -->
+    <!-- EDIT: each card holds one image, GIF or video. Card shapes: "square" or "tall" (left column), "wide" (right column).
+         To add a card, copy one and change the src + label, e.g.
+           <figure class="card wide"><img src="images/new.jpg" alt="..." /><figcaption class="card-label">project · place</figcaption></figure>
+         For a video:  <video autoplay muted loop playsinline><source src="images/clip.mp4" type="video/mp4"></video> -->
+    <section class="work wrap" id="work">
+      <h2 class="section-title">things i've built</h2>
+      <div class="cards">
+        <div class="col">
+          <a class="card square" data-order="1" href="https://fabacademy.org/2024/labs/charlotte/students/angelina-yang/projects/final-project/">
+            <img src="images/presentation.JPG" alt="Presenting the PomoDesk" onerror="this.style.visibility='hidden'" />
+            <span class="card-label">the PomoDesk · Fab Academy</span>
+          </a>
+          <figure class="card tall" data-order="3">
+            <img src="images/rhythmlink1.JPG" alt="EEG electrode testbed" onerror="this.style.visibility='hidden'" />
+            <figcaption class="card-label">EEG electrode testbed · Rhythmlink</figcaption>
+          </figure>
         </div>
-      </section>
-
-      <!-- ---- white sheet ---- -->
-      <div class="sheet">
-        <div class="sheet-handle" aria-hidden="true"></div>
-        <div class="sheet-inner">
-
-          <!-- ============ THINGS I'VE BEEN UP TO ============ -->
-          <!-- EDIT: swap any ✦ for a logo, e.g. <span class="xp-logo"><img src="assets/logos/company.png" alt="" /></span>
-               and fill each [dates] with something like "Jun'24 - Present". -->
-          <section class="block" id="experience">
-            <h2 class="block-title">things i've been up to</h2>
-
-            <h3 class="block-sub">current fixations</h3>
-            <div class="xp">
-              <div class="xp-head">
-                <span class="xp-logo has-logo" aria-hidden="true"><img src="images/logos/hti.png" alt="" /></span>
-                <span class="xp-company">Human Tech Integration Build Team</span>
-                <span class="xp-meta"><span class="xp-role">Project Lead and Embedded Systems Engineer</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Sep. 2026 - Dec. 2026</span></span>
-              </div>
-              <div class="xp-body">
-                <div class="xp-sub">
-                  <p class="xp-sub-title">Presently developing an sEMG-ML detection + alert wearable for epileptic tonic-clonic seizure activity to target sudden unexpected death in epilepsy (SUDEP)</p>
-                  <p class="xp-sub-desc"> Wearables · Machine Learning · Embedded Systems</p>
-                  <!-- EDIT: replace each placeholder with <img src="assets/pics/work-1.jpg" alt="..." />, or delete this block -->
-                  
-                </div>
-
-              </div>
-
-
-
-</div>
-            <div class="xp">
-              <div class="xp-head">
-                <span class="xp-logo has-logo" aria-hidden="true"><img src="images/logos/designplus.png" alt="" /></span>
-                <span class="xp-company">DesignPlus, Morningside Academy of Design</span>
-                <span class="xp-meta"><span class="xp-role">Toy Product Project Lead</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Sep. 2026 - Dec. 2026</span></span>
-              </div>
-
-              <div class="xp-body">
-              <div class="xp-sub">
-                  <p class="xp-sub-title">Presently co-producing a series of magnetic, modular, and musical circuit blocks for collaborative play </p>
-                  <p class="xp-sub-desc"> Modularity · PCB Design</p>
-</div>
-</div>
-            </div>
-
-            <h3 class="block-sub">previous quests</h3>
-            <div class="xp">
-              <div class="xp-head">
-                <span class="xp-logo blue has-logo" aria-hidden="true"><img src="images/logos/rhythmlink.png" alt="" /></span>
-                <span class="xp-company">Rhythmlink International</span>
-                <span class="xp-meta"><span class="xp-role">Research and Development Engineer</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Oct. 2024 - May 2026</span></span>
-              </div>
-              <div class="xp-body">
-
-                <div class="xp-sub">
-                  <p class="xp-sub-title">Co-fabricated a temperature-monitoring sleeve for nerve conduction studies patients, with PID-controlled heating and live data collection </p>
-                  <p class="xp-sub-desc"> Wearable · E-Textiles · Embedded Systems</p>
-                    <!---
-                  <div class="shots">
-                    <div class="shot"><img src="images/rhythmlink3.jpg" alt="A descriptive label of the photo">
-</div>
-                    <div class="shot"> <video video autoplay muted loop playsinline width="440" height="260">
-  <source src="images/rhythmlink4.mp4" type="video/mp4">
-</video> </div>
-                  </div>
-
-                
-
-                <div class="xp-sub">
-                -->
-                    <br>
-                    
-                  <p class="xp-sub-title">Co-engineered a 21-channel EEG electrode testbed and stacked neural network ensemble to diagnose electrode abnormalities </p>
-                  <p class="xp-sub-desc"> Quality Assurance Testing · Machine Learning · Embedded Systems</p>
-                    
-                  <div class="shots">
-                    <div class="shot"><img src="images/rhythmlink2.png" alt="">
-</div>
-                    <div class="shot"> <img src="images/rhythmlink1.JPG" alt=""> </div>
-                  </div>
-                
-                </div>
-              </div>
-              
-            </div>
-            <div class="xp">
-              <div class="xp-head">
-                <span class="xp-logo blue has-logo" aria-hidden="true"><img src="images/logos/fabacademy.png" alt="" /></span>
-                <span class="xp-company">Fab Academy, How to Make Almost Anything</span>
-                <span class="xp-meta">
-                    <span class="xp-role">2024 Graduate</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Jan. 2024 - Jun. 2024</span></span>
-              </div>
-
- <div class="xp-body">
-
-                <div class="xp-sub">
-                  <p class="xp-sub-title">Devised and fabricated <a href="https://fabacademy.org/2024/labs/charlotte/students/angelina-yang/projects/final-project/">the PomoDesk</a>, a smart pomodoro-integrated workspace with a gamified UI for neurodivergent students </p>
-                  <p class="xp-sub-desc"> Rapid Prototyping · Woodworking · Embedded Systems</p>
-<div class="shots">
-                    <div class="shot"><img src="images/presentation.JPG" alt="">
-</div>
-                   <div class="shot"> <video video autoplay muted loop playsinline width="340" height="210">
-  <source src="images/fab.mp4" type="video/mp4"> </video> </div>
-                  </div>
-
-
-            </div>
-
-            <!--
-            <div class="xp">
-              <div class="xp-head">
-                <span class="xp-logo blue" aria-hidden="true">✦</span>
-                <span class="xp-company">[Company]</span>
-                <span class="xp-meta"><span class="xp-role">[Project or role] + [something memorable]</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">[dates]</span></span>
-              </div>
-            </div>
-            <div class="xp">
-              <div class="xp-head">
-                <span class="xp-logo blue" aria-hidden="true">✦</span>
-                <span class="xp-company">[Institute]</span>
-                <span class="xp-meta"><span class="xp-role">[Research or build]</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">[dates]</span></span>
-              </div>
-            -->
-            </div>
-        
-           <!-- <a class="more-link" href="/projects">more things i've built</a> -->
-          </section>
-
-          <!-- ============ PRESS AND SOCIAL MEDIA ============ -->
-          <section class="block" id="press">
-            <h2 class="block-title">press and social media</h2>
-            <ul class="rows">
-              <li class="row">
-                <span class="row-name">
-                  <span class="row-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span>
-                  <a href="https://www.youtube.com/watch?v=prV4ML1Jztg">spreading whimsy (wreaking havoc?) at FAB24</a>
-                </span>
-                <span class="row-note">2024</span>
-              </li>
-              <li class="row">
-                <span class="row-name">
-                  <span class="row-icon blue" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span>
-                  <span>2025 Fab Academy Bootcamp Featured Panelist</span>
-                </span>
-                <span class="row-note">2025</span>
-              </li>
-
-            <li class="row">
-                <span class="row-name">
-                  <span class="row-icon blue" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span>
-                  <span>United Nations Youth Leader for the 2025 International Women's Conference</span>
-                </span>
-                <span class="row-note">2025</span>
-              </li>
-
-            </ul>
-          </section>
-    
+        <div class="col">
+          <a class="card wide" data-order="2" href="https://fabacademy.org/2024/labs/charlotte/students/angelina-yang/projects/final-project/">
+            <video autoplay muted loop playsinline aria-label="The PomoDesk in action">
+              <source src="images/fab.mp4" type="video/mp4">
+            </video>
+            <span class="card-label">the PomoDesk · Fab Academy</span>
+          </a>
+          <figure class="card wide" data-order="4">
+            <img src="images/rhythmlink2.png" alt="EEG electrode testbed" onerror="this.style.visibility='hidden'" />
+            <figcaption class="card-label">EEG electrode testbed · Rhythmlink</figcaption>
+          </figure>
         </div>
       </div>
-
-        
-
-    </main>
+    </section>
 
 
+    <section class="about wrap" id="about">
+      <div class="about-grid">
+        <h2 class="about-title">overthinker<br />or overtinker?</h2>
+        <div class="about-col">
+          <p>I was born and raised in Charlotte, and I am now an MIT student, graduating class of 2030.</p>
+          <p>I love bringing form and function together to design aesthetically efficient systems that can address real world problems.</p>
+        </div>
+        <div class="about-col">
+          <p>I first learned how to build in my freshman year of highschool engineering and design method.</p>
+          <p>Since then, I've grown to love the design process and integrating art and engineering.</p>
+        </div>
+        <img class="signature" src="images/signature.png" alt="" onerror="this.remove()" />
+      </div>
+    </section>
+
+    <!-- ============ THINGS I'VE BEEN UP TO ============ -->
+    <!-- EDIT: logos live in images/logos/. A logo circle with "blue" in its class gets a blue ✦ between role and dates (pink otherwise). -->
+    <section class="adventures wrap" id="experience">
+      <div class="xp-col">
+      <h2 class="section-title">things i've been up to</h2>
+
+      <h3 class="block-sub">current fixations</h3>
+      <div class="xp-list">
+      <div class="xp">
+        <div class="xp-head">
+          <span class="xp-logo has-logo" aria-hidden="true"><img src="images/logos/hti.png" alt="" onerror="this.remove()" /></span>
+          <span class="xp-company">Human Tech Integration Build Team</span>
+          <span class="xp-meta"><span class="xp-role">Project Lead and Embedded Systems Engineer</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Sep. 2026 - Dec. 2026</span></span>
+        </div>
+        <div class="xp-body">
+          <div class="xp-sub">
+            <p class="xp-sub-title">Presently developing an sEMG-ML detection + alert wearable for epileptic tonic-clonic seizure activity to target sudden unexpected death in epilepsy (SUDEP)</p>
+            <p class="xp-sub-desc">Wearables · Machine Learning · Embedded Systems</p>
+          </div>
+        </div>
+      </div>
+      <div class="xp">
+        <div class="xp-head">
+          <span class="xp-logo has-logo" aria-hidden="true"><img src="images/logos/designplus.png" alt="" onerror="this.remove()" /></span>
+          <span class="xp-company">DesignPlus, Morningside Academy of Design</span>
+          <span class="xp-meta"><span class="xp-role">Toy Product Project Lead</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Sep. 2026 - Dec. 2026</span></span>
+        </div>
+        <div class="xp-body">
+          <div class="xp-sub">
+            <p class="xp-sub-title">Presently co-producing a series of magnetic, modular, and musical circuit blocks for collaborative play</p>
+            <p class="xp-sub-desc">Modularity · PCB Design</p>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <h3 class="block-sub">previous quests</h3>
+      <div class="xp-list">
+      <div class="xp">
+        <div class="xp-head">
+          <span class="xp-logo blue has-logo" aria-hidden="true"><img src="images/logos/rhythmlink.png" alt="" onerror="this.remove()" /></span>
+          <span class="xp-company">Rhythmlink International</span>
+          <span class="xp-meta"><span class="xp-role">Research and Development Engineer</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Oct. 2024 - May 2026</span></span>
+        </div>
+        <div class="xp-body">
+          <div class="xp-sub">
+            <p class="xp-sub-title">Co-fabricated a temperature-monitoring sleeve for nerve conduction studies patients, with PID-controlled heating and live data collection</p>
+            <p class="xp-sub-desc">Wearable · E-Textiles · Embedded Systems</p>
+            <p class="xp-sub-title">Co-engineered a 21-channel EEG electrode testbed and stacked neural network ensemble to diagnose electrode abnormalities</p>
+            <p class="xp-sub-desc">Quality Assurance Testing · Machine Learning · Embedded Systems</p>
+          </div>
+        </div>
+      </div>
+      <div class="xp">
+        <div class="xp-head">
+          <span class="xp-logo blue has-logo" aria-hidden="true"><img src="images/logos/fabacademy.png" alt="" onerror="this.remove()" /></span>
+          <span class="xp-company">Fab Academy, How to Make Almost Anything</span>
+          <span class="xp-meta"><span class="xp-role">2024 Graduate</span> <span class="xp-sep" aria-hidden="true">✦</span> <span class="xp-dates">Jan. 2024 - Jun. 2024</span></span>
+        </div>
+        <div class="xp-body">
+          <div class="xp-sub">
+            <p class="xp-sub-title">Devised and fabricated <a href="https://fabacademy.org/2024/labs/charlotte/students/angelina-yang/projects/final-project/">the PomoDesk</a>, a smart pomodoro-integrated workspace with a gamified UI for neurodivergent students</p>
+            <p class="xp-sub-desc">Rapid Prototyping · Woodworking · Embedded Systems</p>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ============ PRESS AND SOCIAL MEDIA ============ -->
+    <section class="adventures wrap" id="press">
+      <div class="xp-col">
+      <h2 class="section-title">press and social media</h2>
+      <div class="rows">
+        <div class="row press">
+          <div class="row-role"><a href="https://www.youtube.com/watch?v=prV4ML1Jztg">spreading whimsy (wreaking havoc?) at FAB24</a></div>
+          <div class="row-dates">2024</div>
+        </div>
+        <div class="row press">
+          <div class="row-role">2025 Fab Academy Bootcamp Featured Panelist</div>
+          <div class="row-dates">2025</div>
+        </div>
+        <div class="row press">
+          <div class="row-role">United Nations Youth Leader for the 2025 International Women's Conference</div>
+          <div class="row-dates">2025</div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+  
+  </main>
+
+  <a class="to-top" href="#top">↑ back to top</a>
 
 <script>
-  // Keep the hero pinned while the white sheet slides up over it.
-  // If the hero is taller than the window, it scrolls until its bottom is visible, then pins.
+  // Show "back to top" once you've scrolled past the intro.
   (function () {
-    var stage = document.querySelector('.stage');
-    var mobile = window.matchMedia('(max-width: 860px)');
-    function pin() {
-      if (mobile.matches) { stage.style.top = ''; return; }
-      var bar = document.querySelector('.site-header');
-      var header = bar ? bar.offsetHeight : 0;
-      stage.style.top = Math.min(header, window.innerHeight - stage.offsetHeight) + 'px';
-    }
-    window.addEventListener('resize', pin);
-    window.addEventListener('load', pin);
-    pin();
+    var btn = document.querySelector('.to-top');
+    function check() { btn.classList.toggle('show', window.scrollY > window.innerHeight * 0.6); }
+    window.addEventListener('scroll', check, { passive: true });
+    check();
   })();
 
-
+  // Respect "reduce motion": pause autoplaying videos.
+  (function () {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    Array.prototype.forEach.call(document.querySelectorAll('video'), function (v) {
+      v.removeAttribute('autoplay'); v.pause();
+    });
+  })();
 </script>
 </body>
 </html>
